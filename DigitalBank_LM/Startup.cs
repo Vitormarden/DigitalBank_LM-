@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.OpenApi.Models;
 
 namespace DigitalBank_LM
 {
@@ -26,6 +30,16 @@ namespace DigitalBank_LM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(
+                    c => {
+                            var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                            var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name+".xml";
+                            var xml = Path.Combine(basePath, fileName);
+                            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Digital Bank API", Version = "v1" });
+                            c.IncludeXmlComments(xml);
+                    }
+                    );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +60,16 @@ namespace DigitalBank_LM
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(
+            c => {
+                c.RoutePrefix = String.Empty;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            }
+            );
+
         }
     }
 }
