@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using DigitalBank_LM.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,9 @@ namespace DigitalBank_LM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<Context>();
+
             services.AddSwaggerGen(
                     c => {
                             var basePath = PlatformServices.Default.Application.ApplicationBasePath;
