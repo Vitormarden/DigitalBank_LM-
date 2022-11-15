@@ -5,6 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DigitalBank_LM.Data;
+using DigitalBank_LM.Repositorys;
+using DigitalBank_LM.Repositorys.Interfaces;
+using DigitalBank_LM.Services;
+using DigitalBank_LM.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +35,8 @@ namespace DigitalBank_LM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddScoped<IClienteServices, ClienteServices>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddDbContext<Context>();
 
             services.AddSwaggerGen(
@@ -40,7 +45,8 @@ namespace DigitalBank_LM
                             var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name+".xml";
                             var xml = Path.Combine(basePath, fileName);
                             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Digital Bank API", Version = "v1" });
-                            c.IncludeXmlComments(xml);
+                        //c.IncludeXmlComments($@"{System.AppDomain.CurrentDomain.BaseDirectory}\DigitalBank_LM.xml");
+                        c.IncludeXmlComments(xml);
                     }
                     );
 

@@ -18,8 +18,17 @@ namespace DigitalBank_LM.Repositorys
         public async Task<Cliente> GetById(int id) => await _context.Clientes.FirstOrDefaultAsync( c=> c.Id_Client == id);
         public async Task Add(Cliente cliente)
         {
-            await _context.Clientes.AddAsync(cliente);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Clientes.AddAsync(cliente);
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception e) 
+            {
+
+                throw;
+            }
+            
         }
         public async Task Update(Cliente cliente)
         {
