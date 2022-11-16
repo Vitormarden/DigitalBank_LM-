@@ -24,9 +24,14 @@ namespace DigitalBank_LM.Services
         }
         public async Task <bool>Add(Cliente cliente)
         {
-            await _clienteRepository.Add(cliente);
-            return true;
+            if (cliente.Idade >= 18)
+            {
+               await _clienteRepository.Add(cliente);
+                return true; 
+            }
+            return false;
         }
+        
          
         public async Task<bool> Update(Cliente cliente)
         {
