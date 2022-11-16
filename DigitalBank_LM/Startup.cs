@@ -45,8 +45,8 @@ namespace DigitalBank_LM
                             var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name+".xml";
                             var xml = Path.Combine(basePath, fileName);
                             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Digital Bank API", Version = "v1" });
-                        //c.IncludeXmlComments($@"{System.AppDomain.CurrentDomain.BaseDirectory}\DigitalBank_LM.xml");
-                        c.IncludeXmlComments(xml);
+
+                            c.IncludeXmlComments(xml);
                     }
                     );
 
@@ -72,13 +72,13 @@ namespace DigitalBank_LM
             });
 
             app.UseSwagger();
-
             app.UseSwaggerUI(
             c => {
                 c.RoutePrefix = String.Empty;
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             }
             );
+
 
         }
     }

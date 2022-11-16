@@ -22,7 +22,7 @@ namespace DigitalBank_LM.Controllers
             return Ok(listCliente);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var clienteById = await _clienteServices.GetById(id);

@@ -15,20 +15,11 @@ namespace DigitalBank_LM.Repositorys
             _context = context;
         }
         public async Task<List<Cliente>> GetAll() => await _context.Clientes.ToListAsync();
-        public async Task<Cliente> GetById(int id) => await _context.Clientes.FirstOrDefaultAsync( c=> c.Id_Client == id);
+        public async Task<Cliente> GetById(int id) => await _context.Clientes.FirstOrDefaultAsync(c => c.Id_Client == id);
         public async Task Add(Cliente cliente)
         {
-            try
-            {
-                await _context.Clientes.AddAsync(cliente);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception e) 
-            {
-
-                throw;
-            }
-            
+            await _context.Clientes.AddAsync(cliente);
+            await _context.SaveChangesAsync();
         }
         public async Task Update(Cliente cliente)
         {
@@ -41,6 +32,6 @@ namespace DigitalBank_LM.Repositorys
             await _context.SaveChangesAsync();
         }
 
-        
+
     }
 }
