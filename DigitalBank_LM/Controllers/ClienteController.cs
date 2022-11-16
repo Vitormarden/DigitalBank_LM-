@@ -25,8 +25,17 @@ namespace DigitalBank_LM.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("id passado é invalido");
+            }
             var clienteById = await _clienteServices.GetById(id);
-            return Ok(clienteById);
+            if (clienteById != null)
+            {
+                return Ok(clienteById);
+
+            }
+            return NotFound();
         }
 
         [HttpPost]
@@ -46,6 +55,9 @@ namespace DigitalBank_LM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
+            if (id <= 0){
+                return BadRequest("id passado é invalido");
+            }
             var clienteDeletar = await _clienteServices.Delete( id);
             return Ok(clienteDeletar);
         }
