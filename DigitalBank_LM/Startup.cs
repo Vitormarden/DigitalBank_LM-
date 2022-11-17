@@ -36,6 +36,8 @@ namespace DigitalBank_LM
         {
             services.AddControllers();
             services.AddScoped<IClienteServices, ClienteServices>();
+            services.AddScoped<IContaBancariaServices, ContaBancariaServices>();
+            services.AddScoped<IContaBancariaRepository,ContaBancariaRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddDbContext<Context>();
 

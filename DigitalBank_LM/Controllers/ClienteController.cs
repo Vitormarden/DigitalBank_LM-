@@ -15,6 +15,7 @@ namespace DigitalBank_LM.Controllers
         {
             this._clienteServices = clienteServices;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -22,13 +23,10 @@ namespace DigitalBank_LM.Controllers
             return Ok(listCliente);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> GetById(int id)
         {
-            if (id <= 0)
-            {
-                return BadRequest("id passado é invalido");
-            }
+            
             var clienteById = await _clienteServices.GetById(id);
             if (clienteById != null)
             {
