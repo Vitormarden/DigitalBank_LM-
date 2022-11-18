@@ -37,7 +37,6 @@ namespace DigitalBank_LM.Services
             if (contaBancariaExiste)
                 throw new System.Exception("Cada cliente poderá ter apenas uma conta cadastrada");
 
-            var cliente = await _clienteRepository.ClienteExiste(cpf);
             int id = _clienteRepository.ClientId(cpf).Result;
             try
             {
