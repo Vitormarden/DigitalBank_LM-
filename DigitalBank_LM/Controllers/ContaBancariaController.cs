@@ -30,13 +30,23 @@ namespace DigitalBank_LM.Controllers
         }
 
         [HttpPost]
-        
-        public async Task<IActionResult> Add(ContaBancaria contaBancaria)
+
+        public async Task<IActionResult> Add(string  cpf)
         {
-            var adcionarContaBancaria = await _contaBancariaServices.Add(contaBancaria);
+            try
+            {
+                var adcionarContaBancaria = await _contaBancariaServices.Add(cpf);
                 return Created("Conta criada", adcionarContaBancaria);
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest($"Erro ao criar conta {e.Message}");
+            }
+            
         }
+
     }
+
        
     
 }

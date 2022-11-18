@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DigitalBank_LM.Data;
 using DigitalBank_LM.Models;
@@ -32,6 +33,10 @@ namespace DigitalBank_LM.Repositorys
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> ClienteExiste(string cpf) => await _context.Clientes.AnyAsync(c => c.Cpf == cpf);
 
+        public async Task<int> ClientId(string cpf) => await _context.Clientes.Select(c => c.Id_Client).FirstOrDefaultAsync();
+
+        public async Task<Cliente> Cliente(string cpf) => await _context.Clientes.FirstOrDefaultAsync();
     }
 }

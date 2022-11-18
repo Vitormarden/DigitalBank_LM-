@@ -11,6 +11,8 @@ namespace DigitalBank_LM.Repositorys.Interfaces
         Task Add (Cliente cliente); 
         Task Update (Cliente cliente);
         Task Delete (int id);
-
+        Task<bool> ClienteExiste(string cpf);
+        Task<int> ClientId(string cpf);
+        Task<Cliente> Cliente(string cpf);
     }
 }

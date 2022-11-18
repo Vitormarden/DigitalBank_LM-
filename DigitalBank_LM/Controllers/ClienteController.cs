@@ -15,7 +15,10 @@ namespace DigitalBank_LM.Controllers
         {
             this._clienteServices = clienteServices;
         }
-
+        /// <summary>
+        /// Buscar todos os clientes cadastrados
+        /// </summary>
+        /// <returns> Retorna lista de cliente, se não tiver cliente cadastrado retorna uma lista vazia</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
