@@ -17,6 +17,11 @@ namespace DigitalBank_LM.Controllers
         {
             _contaBancariaServices = contaBancariaServices;
         }
+
+       /// <summary>
+       /// Buscar todas contas bancarias 
+       /// </summary>
+       /// <returns>Retorna liista de contas bancarias</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -33,6 +38,11 @@ namespace DigitalBank_LM.Controllers
 
         }
 
+        /// <summary>
+        /// Busca conta bancaria pelo cpf
+        /// </summary>
+        /// <param name="Cpf"></param>
+        /// <returns> retorna um objeto conta bancaria(conta bancaria do cpf inserido)</returns>
         [HttpGet("{Cpf}")]
         public async Task<IActionResult> GetByCpf(string Cpf)
         {
@@ -48,7 +58,12 @@ namespace DigitalBank_LM.Controllers
             }
 
         }
-
+        
+        /// <summary>
+        /// Busca todas as transações realizadas por uma conta
+        /// </summary>
+        /// <param name="numeroContaBancaria"></param>
+        /// <returns></returns>
         [HttpGet("Extrato")]
         public async Task<IActionResult> GetByExtratoNumeroDaConta([FromBody] int numeroContaBancaria)
         {
@@ -68,8 +83,13 @@ namespace DigitalBank_LM.Controllers
             }
         }
 
+        /// <summary>
+        /// Adiciona uma nova conta Bancaria
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns>retorna conta bancaria</returns>
         [HttpPost]
-
+        
         public async Task<IActionResult> Add(string cpf)
         {
             try
@@ -84,6 +104,11 @@ namespace DigitalBank_LM.Controllers
 
         }
 
+        /// <summary>
+        /// retira valor do saldo da conta 
+        /// </summary>
+        /// <param name="dadosTransacaoSimplesDto"></param>
+        /// <returns></returns>
         [HttpPut("Debitar")]
         public async Task<IActionResult> Debitar([FromBody] DadosTransacaoSimplesDto dadosTransacaoSimplesDto)
         {
@@ -101,6 +126,11 @@ namespace DigitalBank_LM.Controllers
             }
         }
 
+        /// <summary>
+        /// Adicona valor em saldo de uma conta 
+        /// </summary>
+        /// <param name="dadosTransacaoSimplesDto"></param>
+        /// <returns></returns>
         [HttpPost("Depositar")]
         public async Task<IActionResult> Depositar([FromBody] DadosTransacaoSimplesDto dadosTransacaoSimplesDto)
         {
@@ -117,7 +147,11 @@ namespace DigitalBank_LM.Controllers
                 return BadRequest($"Erro ao tentar depositar {e.Message}");
             }
         }
-
+        /// <summary>
+        /// Transfere um valor de uma conta para outra
+        /// </summary>
+        /// <param name="dadosTransferenciasDto"></param>
+        /// <returns></returns>
         [HttpPut("Transferencia")]
         public async Task<IActionResult> Transferencia([FromBody] DadosTransferenciaDto dadosTransferenciasDto)
         {
