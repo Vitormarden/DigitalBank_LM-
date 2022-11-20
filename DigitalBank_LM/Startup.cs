@@ -39,6 +39,7 @@ namespace DigitalBank_LM
             services.AddScoped<IContaBancariaServices, ContaBancariaServices>();
             services.AddScoped<IContaBancariaRepository,ContaBancariaRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<ITransacaoRepository, TransacaoRepository>();
             services.AddDbContext<Context>();
 
             services.AddSwaggerGen(

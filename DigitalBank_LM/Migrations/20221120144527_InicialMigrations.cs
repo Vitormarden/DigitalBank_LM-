@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DigitalBank_LM.Migrations
 {
-    public partial class teste : Migration
+    public partial class InicialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +13,8 @@ namespace DigitalBank_LM.Migrations
                 {
                     Id_Client = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientNo = table.Column<string>(nullable: true),
-                    Cpf = table.Column<string>(nullable: true),
+                    ClientNo = table.Column<string>(maxLength: 50, nullable: true),
+                    Cpf = table.Column<string>(maxLength: 11, nullable: true),
                     Idade = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -33,6 +34,12 @@ namespace DigitalBank_LM.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ContaBancaria", x => x.Number_Account);
+                    table.ForeignKey(
+                        name: "FK_ContaBancaria_Cliente_Id_Client",
+                        column: x => x.Id_Client,
+                        principalTable: "Cliente",
+                        principalColumn: "Id_Client",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,9 +49,9 @@ namespace DigitalBank_LM.Migrations
                     Id_Transaction = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number_Account = table.Column<int>(nullable: false),
-                    Type_Transaction = table.Column<string>(nullable: true),
-                    Value_Transaction = table.Column<int>(nullable: false),
-                    Date_Transaction = table.Column<int>(nullable: false)
+                    Type_Transaction = table.Column<string>(maxLength: 30, nullable: true),
+                    Value_Transaction = table.Column<decimal>(nullable: false),
+                    Date_Transaction = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,6 +65,11 @@ namespace DigitalBank_LM.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContaBancaria_Id_Client",
+                table: "ContaBancaria",
+                column: "Id_Client");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transacao_Number_Account",
                 table: "Transacao",
                 column: "Number_Account");
@@ -66,13 +78,13 @@ namespace DigitalBank_LM.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cliente");
-
-            migrationBuilder.DropTable(
                 name: "Transacao");
 
             migrationBuilder.DropTable(
                 name: "ContaBancaria");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
         }
     }
 }

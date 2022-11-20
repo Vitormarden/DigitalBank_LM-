@@ -32,7 +32,6 @@ namespace DigitalBank_LM.Repositorys
             _context.Clientes.Remove(await GetById(id));
             await _context.SaveChangesAsync();
         }
-
         public async Task<bool> ClienteExiste(string cpf) => await _context.Clientes.AnyAsync(c => c.Cpf == cpf);
 
         public async Task<int> ClientId(string cpf) => await _context.Clientes.Select(c => c.Id_Client).FirstOrDefaultAsync();

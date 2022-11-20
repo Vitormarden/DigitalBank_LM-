@@ -10,6 +10,9 @@ namespace DigitalBank_LM.Services.Interfaces
         Task<ContaBancariaDto> GetByCpf(string cpf);
         Task<List<ContaBancaria>> GetAll();
         Task<bool> Add(string cpf);
-        
+        Task Debitar(DadosTransacaoSimplesDto dadosTransacaoSimplesDto);
+        Task Transferencia(DadosTransferenciaDto dadosTransferenciasDto);
+        Task Depositar(DadosTransacaoSimplesDto dadosTransacaoSimplesDto);
+        Task GetByExtratoNumeroDaConta(int numeroContaBancaria);
     }
 }

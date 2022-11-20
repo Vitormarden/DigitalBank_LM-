@@ -14,8 +14,6 @@ namespace DigitalBank_LM.Models
 
         [StringLength(11)]
         public string Cpf { get; set; }
-
-        
         public int Idade { get; set; }
 
     }
