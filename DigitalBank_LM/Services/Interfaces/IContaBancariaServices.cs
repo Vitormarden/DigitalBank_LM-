@@ -13,6 +13,6 @@ namespace DigitalBank_LM.Services.Interfaces
         Task Debitar(DadosTransacaoSimplesDto dadosTransacaoSimplesDto);
         Task Transferencia(DadosTransferenciaDto dadosTransferenciasDto);
         Task Depositar(DadosTransacaoSimplesDto dadosTransacaoSimplesDto);
-        Task GetByExtratoNumeroDaConta(int numeroContaBancaria);
+        Task<List<Transacao>> GetByExtratoNumeroDaConta(int numeroContaBancaria);
     }
 }

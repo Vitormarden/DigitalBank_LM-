@@ -34,7 +34,6 @@ namespace DigitalBank_LM.Repositorys
             await _context.SaveChangesAsync();
         }
 
-       
         public async Task Depositar(ContaBancaria contaBancaria)
         {
             _context.ContaBancarias.Update(contaBancaria);
@@ -46,10 +45,7 @@ namespace DigitalBank_LM.Repositorys
             _context.ContaBancarias.Update(contaBancaria);
             await _context.SaveChangesAsync();
         }
-        public Task Transferencia(ContaBancaria contaBancaria)
-        {
-            _context.ContaBancarias.Update(contaBancaria);
-        }
+        
 
         public async Task<bool> ContaBancariaExisteParaCliente(string cpf) => await _context.ContaBancarias.AnyAsync(b => b.Cliente.Cpf == cpf);
 
@@ -59,6 +55,11 @@ namespace DigitalBank_LM.Repositorys
 
         public async Task<decimal> RetornarSaldo(int numeroConta) => await _context.ContaBancarias.AsNoTracking().Where(b => b.Number_Account == numeroConta).Select(b => b.Saldo).FirstOrDefaultAsync();
 
-       
+        public async Task Transferencia(ContaBancaria contaBancaria)
+        {
+            _context.ContaBancarias.Update(contaBancaria);
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DigitalBank_LM.Dto;
 using DigitalBank_LM.Models;
@@ -13,15 +14,12 @@ namespace DigitalBank_LM.Controllers
     public class ContaBancariaController : ControllerBase
     {
         private readonly IContaBancariaServices _contaBancariaServices;
-        public ContaBancariaController(IContaBancariaServices contaBancariaServices)
-        {
-            _contaBancariaServices = contaBancariaServices;
-        }
+        public ContaBancariaController(IContaBancariaServices contaBancariaServices) => _contaBancariaServices = contaBancariaServices;
 
-       /// <summary>
-       /// Buscar todas contas bancarias 
-       /// </summary>
-       /// <returns>Retorna liista de contas bancarias</returns>
+        /// <summary>
+        /// Buscar todas contas bancarias 
+        /// </summary>
+        /// <returns>Retorna liista de contas bancarias</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -58,24 +56,22 @@ namespace DigitalBank_LM.Controllers
             }
 
         }
-        
+
         /// <summary>
         /// Busca todas as transações realizadas por uma conta
         /// </summary>
         /// <param name="numeroContaBancaria"></param>
         /// <returns></returns>
         [HttpGet("Extrato")]
-        public async Task<IActionResult> GetByExtratoNumeroDaConta([FromBody] int numeroContaBancaria)
+        public async Task<IActionResult> GetByExtratoNumeroDaConta( int numeroContaBancaria)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                var listTransacoes = await _contaBancariaServices.GetByExtratoNumeroDaConta(numeroContaBancaria);
-                if (listTransacoes == null)
-                    return BadRequest("esta conta não existe");
-                return Ok(listTransacoes);
+                var listatrancoes = await _contaBancariaServices.GetByExtratoNumeroDaConta(numeroContaBancaria);
+                return Ok(listatrancoes);
             }
             catch (System.Exception e)
             {
@@ -89,7 +85,7 @@ namespace DigitalBank_LM.Controllers
         /// <param name="cpf"></param>
         /// <returns>retorna conta bancaria</returns>
         [HttpPost]
-        
+
         public async Task<IActionResult> Add(string cpf)
         {
             try
@@ -161,7 +157,7 @@ namespace DigitalBank_LM.Controllers
                     return BadRequest();
 
                 await _contaBancariaServices.Transferencia(dadosTransferenciasDto);
-                return Created("Transfência enviada", null);
+                return Ok("Transfencia enviada");
             }
             catch (System.Exception e)
             {

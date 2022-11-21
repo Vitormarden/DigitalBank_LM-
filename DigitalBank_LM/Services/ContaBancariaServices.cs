@@ -9,6 +9,7 @@ using DigitalBank_LM.Models;
 using DigitalBank_LM.Repositorys;
 using DigitalBank_LM.Repositorys.Interfaces;
 using DigitalBank_LM.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalBank_LM.Services
 {
@@ -58,8 +59,6 @@ namespace DigitalBank_LM.Services
 
                 throw e;
             }
-
-
         }
         public async Task Depositar(DadosTransacaoSimplesDto dadosTransacaoSimplesDto)
         {
@@ -99,10 +98,10 @@ namespace DigitalBank_LM.Services
         public async Task Transferencia(DadosTransferenciaDto dadosTransferenciasDto)
         {
 
-            if (_contaBancariaRepository.NumeroDaContaBancariaExiste(dadosTransferenciasDto.Number_Account_Destino).Result)
+            if (!_contaBancariaRepository.NumeroDaContaBancariaExiste(dadosTransferenciasDto.Number_Account_Destino).Result)
                 throw new Exception("Número da conta de destinonão localizada");
 
-            if (_contaBancariaRepository.NumeroDaContaBancariaExiste(dadosTransferenciasDto.Number_Account_Origem).Result)
+            if (!_contaBancariaRepository.NumeroDaContaBancariaExiste(dadosTransferenciasDto.Number_Account_Origem).Result)
                 throw new Exception("Número da conta de origem não localizada");
 
             var contaOrigem = await _contaBancariaRepository.GetByNumeroConta(dadosTransferenciasDto.Number_Account_Origem);
@@ -112,24 +111,24 @@ namespace DigitalBank_LM.Services
                 throw new Exception("Saldo insuficiente");
 
             contaOrigem.Saldo -= dadosTransferenciasDto.Valor;
-            contaDestino.Saldo += dadosTransferenciasDto.Valor;
-
             await _contaBancariaRepository.Transferencia(contaOrigem);
             var transacaoOrigem = new Transacao(contaOrigem.Number_Account, "Transferencia_enviada", dadosTransferenciasDto.Valor);
             await _transacaoRepository.Add(transacaoOrigem);
 
+            contaDestino.Saldo += dadosTransferenciasDto.Valor;
             await _contaBancariaRepository.Transferencia(contaDestino);
             var transacaoDestino = new Transacao(contaDestino.Number_Account, "Transferencia_recebida", dadosTransferenciasDto.Valor);
             await _transacaoRepository.Add(transacaoDestino);
 
         }
 
-        public async Task GetByExtratoNumeroDaConta(int numeroContaBancaria)
+        public async Task<List<Transacao>> GetByExtratoNumeroDaConta(int numeroContaBancaria)
         {
-            if (_contaBancariaRepository.NumeroDaContaBancariaExiste(numeroContaBancaria).Result)
+            if (!_contaBancariaRepository.NumeroDaContaBancariaExiste(numeroContaBancaria).Result)
                 throw new Exception("Número da conta de destinonão localizada");
 
-             await _transacaoRepository.GetExtratoByNumeroConta(numeroContaBancaria);
+             var listaTransacao = await _transacaoRepository.GetExtratoByNumeroConta(numeroContaBancaria);
+            return listaTransacao;
         }
        
     }

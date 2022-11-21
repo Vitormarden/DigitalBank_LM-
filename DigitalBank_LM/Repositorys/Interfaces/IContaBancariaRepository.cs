@@ -15,7 +15,7 @@ namespace DigitalBank_LM.Repositorys.Interfaces
         Task<ContaBancaria> GetByNumeroConta(int numeroConta);
         Task Debitar(ContaBancaria contaBancaria);
         Task Depositar(ContaBancaria contaBancaria);
-       // Task Transacao(DadosTransferenciaDto dadosTransferenciaDto);
+        //Task Transacao(DadosTransferenciaDto dadosTransferenciaDto);
         Task<decimal> RetornarSaldo(int numeroConta);
         Task Transferencia(ContaBancaria contaBancaria);
        
